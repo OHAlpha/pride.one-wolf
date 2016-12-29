@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  person: one
+  address: one
+  address_type: Address
+  kind: MyString
+  primary: false
+
+two:
+  person: two
+  address: two
+  address_type: Address
+  kind: MyString
+  primary: false

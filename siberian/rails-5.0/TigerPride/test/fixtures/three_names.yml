@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  given: MyString
+  middle: MyString
+  family: MyString
+  suffix: MyString
+
+two:
+  title: MyString
+  given: MyString
+  middle: MyString
+  family: MyString
+  suffix: MyString

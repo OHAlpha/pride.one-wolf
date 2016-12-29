@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  precedence: 1
+  perm_add: 
+  perm_remove: 
+  perm: MyText
+
+two:
+  name: MyString
+  description: MyText
+  precedence: 1
+  perm_add: 
+  perm_remove: 
+  perm: MyText

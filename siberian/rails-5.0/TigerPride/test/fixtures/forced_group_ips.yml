@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group: one
+  low: 1
+  high: 1
+  details: MyText
+
+two:
+  group: two
+  low: 1
+  high: 1
+  details: MyText
