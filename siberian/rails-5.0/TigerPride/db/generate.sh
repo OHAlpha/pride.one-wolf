@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rails g model name:string email:string salt:string iterations:integer
+rails g model queued_user name:string email:string salt:string iterations:integer
 rails g model person
 rails g model one_name name:string:index
 rails g model three_name title:string given:string:index middle:string family:string:index suffix:string
