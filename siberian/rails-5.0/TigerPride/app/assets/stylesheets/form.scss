@@ -3,15 +3,34 @@
 $form-width: 400px;
 $form-padding: 20px;
 $row-height: 40px;
-$rows: 7;
-$form-height: $form-padding + $rows * ($row-height + $form-padding);
+
+$signup-rows: 7;
+$signup-height: $form-padding + $signup-rows * ($row-height + $form-padding);
+
+$signin-rows: 3;
+$signin-height: $form-padding + $signin-rows * ($row-height + $form-padding);
 
 form {
+  &#signupForm {
+    height: $signup-height;
+    @for $index from 0 to $signup-rows {
+      .row[row="#{$index + 1}"] {
+        top: $form-padding + ($row-height + $form-padding) * $index;
+      }
+    }
+  }
+  &#signinForm {
+    height: $signin-height;
+    @for $index from 0 to $signin-rows {
+      .row[row="#{$index + 1}"] {
+        top: $form-padding + ($row-height + $form-padding) * $index;
+      }
+    }
+  }
   position: absolute;
   left: 50%;
   top: 50%;
   width: $form-width;
-  height: $form-height;
   transform: translate(-50%, -50%);
   background: rgba($theme-col-delta-4, .6);
   outline: 3px solid rgba($theme-col-delta-2, .4);
@@ -20,11 +39,6 @@ form {
     left: $form-padding;
     right: $form-padding;
     height: $row-height;
-    @for $index from 0 to $rows {
-      &[row="#{$index + 1}"] {
-        top: $form-padding + ($row-height + $form-padding) * $index;
-      }
-    }
     .field {
       position: absolute;
       height: inherit;

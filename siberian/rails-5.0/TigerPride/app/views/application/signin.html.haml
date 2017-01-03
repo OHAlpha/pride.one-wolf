@@ -1,2 +1,27 @@
-%h1 Application#signin
-%p Find me in app/views/application/signin.html.haml
+- content_for :script_include do
+  = javascript_include_tag 'signin', 'data-turbolinks-track': 'reload'
+  = javascript_include_tag 'forge/forge.min.js', 'data-turbolinks-track': 'reload'
+
+- max_name_length = 25
+- min_name_length = 4
+- max_password_length = 32
+- min_password_length = 8
+%form#signinForm{'ng-app': 'signinApp', 'ng-controller': 'signinController', name: 'signinForm', 'ng-submit': "processForm()", novalidate: true}
+  - atname = request_forgery_protection_token.to_s
+  %input{type: 'hidden', name: atname, id: 'authenticity_token', value: form_authenticity_token}
+  - row = 1
+  .row{row: row}
+    - row = row + 1
+    #identifier-field.field.full
+      %input{type: 'text', placeholder: 'Username or Email', 'ng-model': 'formData.identifier', name: 'identifier', id: 'identifier', 'ng-required': 'true', 'ng-trim': 'true'}
+      %span{'ng-show': 'error.identifier', 'ng-model': 'error.identifier'}
+  .row{row: row}
+    - row = row + 1
+    .field.full
+      %input{type: 'password', placeholder: 'Password', 'ng-model': 'auxillary.password', name: 'password', id: 'password', 'ng-required': 'true'}
+  .row{row: row}
+    - row = row + 1
+    #submit-field.field.half.left
+      %button{type: 'submit', id: 'submit', 'ng-disabled': 'signupForm.$invalid'} Sign In
+    .field.half.right
+      %pre{'ng-show': 'message'}

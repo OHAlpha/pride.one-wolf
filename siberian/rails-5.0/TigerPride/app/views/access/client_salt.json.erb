@@ -1,0 +1,7 @@
+{
+    "success": <%= @exists %>
+    <%= if @exists then ", \"user_id\": #{@salt[:user_id]}".html_safe end %>
+    <%= if @exists then ", \"salt\": \"#{@salt[:client_salt]}\"".html_safe end %>
+    <%= if @exists then ", \"iterations\": #{@salt[:iterations]}".html_safe end %>
+    <%= if @exists then ", \"key_size\": #{@salt[:key_size]}".html_safe end %>
+}

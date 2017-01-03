@@ -1,19 +1,21 @@
+function toHex(s) {
+    var hex = "";
+    for (var i = 0; i < s.length; i++) {
+        hex += s.charCodeAt(i).toString(16);
+    }
+    return hex;
+}
+
 (function() {
     var app = angular.module('signupApp', []);
     app.controller('signupController', function($scope, $http) {
         $scope.formData = {
-            name: 'asdfasd',
-            email: 'axe',
             authenticity_token: $('#authenticity_token').val()
         };
-        $scope.auxillary = {
-            email: 'axe',
-            password: 'alphabeta',
-            confirm_password: 'alphabeta'
-        };
+        $scope.auxillary = {};
         $scope.error = {};
         $scope.nameExists = function() {
-            $('#name').addClass('loader-7');
+            $('#name-field').addClass('loader-07');
             $http({
                     method: 'POST',
                     url: '/access/name_exists.json',
@@ -36,11 +38,11 @@
                         $scope.signupForm.name.$setValidity('nameExists', true)
                     }
                 }).then(function() {
-                    $('#name').removeClass('loader-7');
+                    $('#name-field').removeClass('loader-07');
                 });
         }
         $scope.emailExists = function() {
-            $('#email').addClass('loader-7');
+            $('#email-field').addClass('loader-07');
             $http({
                     method: 'POST',
                     url: '/access/email_exists.json',
@@ -63,7 +65,7 @@
                         $scope.signupForm.email.$setValidity('emailExists', true)
                     }
                 }).then(function() {
-                    $('#email').removeClass('loader-7');
+                    $('#email-field').removeClass('loader-07');
                 });
         }
         $scope.confirmEmail = function() {
@@ -85,23 +87,48 @@
             $scope.signupForm.confirm_password.$setValidity('confirmPassword', true);
         }
         $scope.processForm = function() {
-            //console.log('processForm');
-            ///*
-            //console.log($('#authenticity_token').val());
+            var password = $scope.auxillary.password;
+            $scope.auxillary.password = '';
+            $scope.auxillary.confirm_password = '';
+            $('#submit-field').addClass('loader-07');
             $http({
-                    method: 'POST',
-                    url: '/access/register',
-                    data: $.param($scope.formData), // pass in data as strings
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    } // set the headers so angular passing info as form data (not request payload)
-                })
-                .success(function(data) {
-                    console.log(data);
+                method: 'POST',
+                url: '/access/generate_salt.json',
+                data: {
+                    name: $scope.formData.name,
+                    email: $scope.formData.email,
+                    authenticity_token: $('#authenticity_token').val()
+                }
+            }).success(function(data) {
+                console.log(data);
+                if (data.success) {
+                    var md = forge.md.sha512.create();
+                    var arr = forge.pkcs5.pbkdf2(password, data.salt, data.iterations, data.key_size, md);
+                    var hex = toHex(arr);
+                    $http({
+                            method: 'POST',
+                            url: '/access/register.json',
+                            data: $.param({
+                                name: $scope.formData.name,
+                                email: $scope.formData.email,
+                                salt: data.salt,
+                                iterations: data.iterations,
+                                passhash: hex,
+                                authenticity_token: $('#authenticity_token').val()
+                            }), // pass in data as strings
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            } // set the headers so angular passing info as form data (not request payload)
+                        })
+                        .success(function(data) {
+                            console.log(data);
 
-                    $scope.message = data;
-                });
-            //*/
+                            $scope.message = data;
+                        });
+                }
+            }).then(function() {
+                $('#submit-field').removeClass('loader-07');
+            });
         };
     });
 })()

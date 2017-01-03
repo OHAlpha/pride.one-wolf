@@ -1,5 +1,6 @@
 - content_for :script_include do
   = javascript_include_tag 'signup', 'data-turbolinks-track': 'reload'
+  = javascript_include_tag 'forge/forge.min.js', 'data-turbolinks-track': 'reload'
 
 - max_name_length = 25
 - min_name_length = 4
@@ -11,17 +12,17 @@
   - row = 1
   .row{row: row}
     - row = row + 1
-    .field.full
+    #name-field.field.full
       %input{type: 'text', placeholder: 'Username', 'ng-model': 'formData.name', name: 'name', id: 'name', 'ng-blur': 'nameExists()', 'ng-maxlength': max_name_length, 'ng-minlength': min_name_length, 'ng-required': 'true', 'ng-trim': 'true'}
       %span{'ng-show': 'error.name', 'ng-model': 'error.name'}
   .row{row: row}
     - row = row + 1
-    .field.full
-      %input{type: 'text', placeholder: 'Email', 'ng-model': 'formData.email', name: 'email', id: 'email', 'ng-change': 'validEmail()', 'ng-blur': 'emailExists()', 'ng-required': 'true'}
+    #email-field.field.full
+      %input{type: 'text', placeholder: 'Email', 'ng-model': 'formData.email', name: 'email', id: 'email', 'ng-change': 'validEmail()', 'ng-blur': 'emailExists()', 'ng-required': 'true', 'ng-trim': 'true'}
   .row{row: row}
     - row = row + 1
     .field.full
-      %input{type: 'text', placeholder: 'Confirm Email', 'ng-model': 'auxillary.email', name: 'confirm_email', id: 'confirm-email', 'ng-blur': 'confirmEmail()', 'ng-change': 'validEmail()', 'ng-required': 'true'}
+      %input{type: 'text', placeholder: 'Confirm Email', 'ng-model': 'auxillary.email', name: 'confirm_email', id: 'confirm-email', 'ng-blur': 'confirmEmail()', 'ng-change': 'validEmail()', 'ng-required': 'true', 'ng-trim': 'true'}
   .row{row: row}
     - row = row + 1
     .field.half.left
@@ -38,7 +39,7 @@
       %input{type: 'password', placeholder: 'Confirm Password', 'ng-model': 'auxillary.confirm_password', name: 'confirm_password', id: 'confirm-password', 'ng-blur': 'confirmPassword()', 'ng-change': 'validPassword()', 'ng-maxlength': max_password_length, 'ng-minlength': min_password_length, 'ng-required': 'true'}
   .row{row: row}
     - row = row + 1
-    .field.half.left
-      %button{type: 'submit', 'ng-disabled': 'signupForm.$invalid'} Sign Up
+    #submit-field.field.half.left
+      %button{type: 'submit', id: 'submit', 'ng-disabled': 'signupForm.$invalid'} Sign Up
     .field.half.right
       %pre{'ng-show': 'message'}

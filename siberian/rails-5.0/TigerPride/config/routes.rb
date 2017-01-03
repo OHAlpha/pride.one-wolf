@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   get 'join', to: 'application#join'
 
-  get 'application/signin'
+  get 'signin', to: 'application#signin'
 
-  get 'application/signout'
+  get 'signout', to: 'application#signout'
 
-  get 'application/leave'
+  get 'leave', to: 'application#leave'
 
   post 'access/name_exists'
 
