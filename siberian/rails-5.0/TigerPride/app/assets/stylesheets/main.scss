@@ -1,0 +1,24 @@
+@import 'rainbow-palette';
+@import 'background';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #ddd;
+  a {
+    color: #88f;
+    &:visited {
+      color: #c8f;
+    }
+    &:active {
+      color: #f44;
+    }
+    &:hover {
+      color: #f88;
+    }
+  }
+}

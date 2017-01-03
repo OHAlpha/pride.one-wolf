@@ -1,0 +1,44 @@
+- content_for :script_include do
+  = javascript_include_tag 'signup', 'data-turbolinks-track': 'reload'
+
+- max_name_length = 25
+- min_name_length = 4
+- max_password_length = 32
+- min_password_length = 8
+%form#signupForm{'ng-app': 'signupApp', 'ng-controller': 'signupController', name: 'signupForm', 'ng-submit': "processForm()", novalidate: true}
+  - atname = request_forgery_protection_token.to_s
+  %input{type: 'hidden', name: atname, id: 'authenticity_token', value: form_authenticity_token}
+  - row = 1
+  .row{row: row}
+    - row = row + 1
+    .field.full
+      %input{type: 'text', placeholder: 'Username', 'ng-model': 'formData.name', name: 'name', id: 'name', 'ng-blur': 'nameExists()', 'ng-maxlength': max_name_length, 'ng-minlength': min_name_length, 'ng-required': 'true', 'ng-trim': 'true'}
+      %span{'ng-show': 'error.name', 'ng-model': 'error.name'}
+  .row{row: row}
+    - row = row + 1
+    .field.full
+      %input{type: 'text', placeholder: 'Email', 'ng-model': 'formData.email', name: 'email', id: 'email', 'ng-change': 'validEmail()', 'ng-blur': 'emailExists()', 'ng-required': 'true'}
+  .row{row: row}
+    - row = row + 1
+    .field.full
+      %input{type: 'text', placeholder: 'Confirm Email', 'ng-model': 'auxillary.email', name: 'confirm_email', id: 'confirm-email', 'ng-blur': 'confirmEmail()', 'ng-change': 'validEmail()', 'ng-required': 'true'}
+  .row{row: row}
+    - row = row + 1
+    .field.half.left
+      %input{type: 'text', placeholder: 'First Name', 'ng-model': 'formData.given', name: 'given', id: 'given'}
+    .field.half.right
+      %input{type: 'text', placeholder: 'Last Name', 'ng-model': 'formData.last', name: 'last', id: 'last'}
+  .row{row: row}
+    - row = row + 1
+    .field.full
+      %input{type: 'password', placeholder: 'Password', 'ng-model': 'auxillary.password', name: 'password', id: 'password', 'ng-change': 'validPassword()', 'ng-maxlength': max_password_length, 'ng-minlength': min_password_length, 'ng-required': 'true'}
+  .row{row: row}
+    - row = row + 1
+    .field.full
+      %input{type: 'password', placeholder: 'Confirm Password', 'ng-model': 'auxillary.confirm_password', name: 'confirm_password', id: 'confirm-password', 'ng-blur': 'confirmPassword()', 'ng-change': 'validPassword()', 'ng-maxlength': max_password_length, 'ng-minlength': min_password_length, 'ng-required': 'true'}
+  .row{row: row}
+    - row = row + 1
+    .field.half.left
+      %button{type: 'submit', 'ng-disabled': 'signupForm.$invalid'} Sign Up
+    .field.half.right
+      %pre{'ng-show': 'message'}

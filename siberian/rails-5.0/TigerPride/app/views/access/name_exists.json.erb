@@ -1,0 +1,4 @@
+{
+    "exists": <%= @exists %>
+    <%= if @exists then ", ""user_id"": #{@user.id}" end %>
+}
