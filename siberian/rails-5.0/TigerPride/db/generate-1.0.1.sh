@@ -12,13 +12,15 @@ rails g model residence person:references:index address:references{polymorphic}:
 rails g model phone person:references:index number:string:index provider:string:index kind:string primary:boolean
 rails g model user person:references:index name:string:uniq email:string:uniq client_salt:string server_salt:string iterations:integer passhash:string perm_override_add:bigint perm_override_remove:bigint perm_override:text reg_date:integer reg_ip:integer log_dat:integer log_ip:integer state:integer status:string details:text auxillary:text
 rails g model auto_login public_key:string private_key:string date:integer ip:integer
-rails g model organization 
+rails g model permission_set
+rails g model permission permission_set:references:index name:string description:text kind:string visibility:string key:string
+rails g model organization permission_set:references:index name:string description:text
 rails g model member user:references:index organization:references:index
 rails g model group organization:references:index name:string description:text precedence:integer perm_add:bigint perm_remove:bigint perm:text
 rails g model assignment user:references:index group:references:index
 rails g model forced_group_email group:references:index regex:string details:text
-rails g model forced_group_ip group:references:index low:integer high:integer details:text
+rails g model forced_group_ip group:references:index kind:integer low:integer high:integer details:text
 rails g model role organization:references:index name:string description:text precedence:integer
 rails g model appointment user:references:index role:references:index
-rails g model permission name:string description:text parent:references:index
-rails g model right role:references:index permission:references:index
+rails g model operation name:string description:text parent:references:index
+rails g model right role:references:index permission:references:index kind:string
