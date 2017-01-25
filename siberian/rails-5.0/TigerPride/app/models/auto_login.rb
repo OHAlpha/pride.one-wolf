@@ -1,2 +1,0 @@
-class AutoLogin < ApplicationRecord
-end

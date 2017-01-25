@@ -1,2 +1,0 @@
-class QueuedUser < ApplicationRecord
-end

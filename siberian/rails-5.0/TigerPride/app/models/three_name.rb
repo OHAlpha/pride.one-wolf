@@ -1,2 +1,0 @@
-class ThreeName < ApplicationRecord
-end
