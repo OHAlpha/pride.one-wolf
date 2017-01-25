@@ -6,9 +6,10 @@
 - min_name_length = 4
 - max_password_length = 32
 - min_password_length = 8
-%form#signupForm{'ng-app': 'signupApp', 'ng-controller': 'signupController', name: 'signupForm', 'ng-submit': "processForm()", novalidate: true}
+%form#signupForm{action: '/login', method: 'POST', 'ng-app': 'signupApp', 'ng-controller': 'signupController', name: 'signupForm', 'ng-submit': "processForm()", novalidate: true}
   - atname = request_forgery_protection_token.to_s
   %input{type: 'hidden', name: atname, id: 'authenticity_token', value: form_authenticity_token}
+  %input{type: 'hidden', name: 'url', id: 'redirect_url', value: @redirect_url}
   - row = 1
   .row{row: row}
     - row = row + 1

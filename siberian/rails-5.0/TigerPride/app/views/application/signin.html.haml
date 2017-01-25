@@ -6,7 +6,7 @@
 - min_name_length = 4
 - max_password_length = 32
 - min_password_length = 8
-%form#signinForm{'ng-app': 'signinApp', 'ng-controller': 'signinController', name: 'signinForm', 'ng-submit': "processForm()", novalidate: true}
+%form#signinForm{action: @redirect_url, method: 'GET', 'ng-app': 'signinApp', 'ng-controller': 'signinController', name: 'signinForm', 'ng-submit': "processForm()", novalidate: true}
   - atname = request_forgery_protection_token.to_s
   %input{type: 'hidden', name: atname, id: 'authenticity_token', value: form_authenticity_token}
   - row = 1
