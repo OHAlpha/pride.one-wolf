@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  permission_set: one
+  name: MyString
+  description: MyText
+  kind: MyString
+  visibility: MyString
+  key: MyString
+
+two:
+  permission_set: two
+  name: MyString
+  description: MyText
+  kind: MyString
+  visibility: MyString
+  key: MyString

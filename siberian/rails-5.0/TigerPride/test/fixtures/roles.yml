@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  organization: one
+  name: MyString
+  description: MyText
+  precedence: 1
+
+two:
+  organization: two
+  name: MyString
+  description: MyText
+  precedence: 1

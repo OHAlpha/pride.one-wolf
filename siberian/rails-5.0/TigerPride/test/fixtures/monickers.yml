@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  person: one
+  name: one
+  name_type: Name
+  kind: MyString
+  primary: false
+
+two:
+  person: two
+  name: two
+  name_type: Name
+  kind: MyString
+  primary: false

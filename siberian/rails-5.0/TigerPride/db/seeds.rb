@@ -8,5 +8,5 @@
 
 # Dir[File.join(Rails.root, 'db', 'seeds', '*.rb')].sort.each { |seed| load seed }
 
-load 'groups.rb'
+load 'organizations.rb'
 load 'users.rb'

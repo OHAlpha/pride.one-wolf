@@ -1,0 +1,2 @@
+class ThreeName < ApplicationRecord
+end

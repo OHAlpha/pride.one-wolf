@@ -1,0 +1,2 @@
+class UsaAddress < ApplicationRecord
+end

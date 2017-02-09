@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  person: one
+  name: MyString
+  email: MyString
+  client_salt: MyString
+  server_salt: MyString
+  iterations: 1
+  passhash: MyString
+  perm_override_add: 
+  perm_override_remove: 
+  perm_override: MyText
+  reg_date: 1
+  reg_ip: 1
+  log_dat: 1
+  log_ip: 1
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText
+
+two:
+  person: two
+  name: MyString
+  email: MyString
+  client_salt: MyString
+  server_salt: MyString
+  iterations: 1
+  passhash: MyString
+  perm_override_add: 
+  perm_override_remove: 
+  perm_override: MyText
+  reg_date: 1
+  reg_ip: 1
+  log_dat: 1
+  log_ip: 1
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText
