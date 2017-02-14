@@ -1,0 +1,2 @@
+class NameSuffix < ApplicationRecord
+end

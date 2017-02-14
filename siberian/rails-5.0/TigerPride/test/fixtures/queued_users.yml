@@ -1,12 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  queued_user: MyString
+  private_key: MyString
   name: MyString
   email: MyString
   salt: MyString
   iterations: 1
 
 two:
+  queued_user: MyString
+  private_key: MyString
   name: MyString
   email: MyString
   salt: MyString

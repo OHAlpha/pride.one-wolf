@@ -1,13 +1,27 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  role: MyString
+  private_key: MyString
   organization: one
+  added_by: one
   name: MyString
   description: MyText
   precedence: 1
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText
 
 two:
+  role: MyString
+  private_key: MyString
   organization: two
+  added_by: two
   name: MyString
   description: MyText
   precedence: 1
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText

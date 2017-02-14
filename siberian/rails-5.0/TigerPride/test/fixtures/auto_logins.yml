@@ -1,12 +1,18 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  auto_login: MyString
+  private_key: MyString
+  login: one
   public_key: MyString
   private_key: MyString
   date: 1
   ip: 1
 
 two:
+  auto_login: MyString
+  private_key: MyString
+  login: two
   public_key: MyString
   private_key: MyString
   date: 1

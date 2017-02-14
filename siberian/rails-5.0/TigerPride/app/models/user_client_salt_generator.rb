@@ -21,4 +21,15 @@ class UserRegistrar
   def size
     @size
   end
+  def to_hash(user=nil)
+    if not user.nil?
+      user.salt = salt
+      user.iterations = iterations
+    end
+    {
+      salt: salt,
+      iterations: iterations,
+      size: size
+    }
+  end
 end

@@ -1,19 +1,33 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  group: MyString
+  private_key: MyString
   organization: one
+  added_by: one
   name: MyString
   description: MyText
   precedence: 1
   perm_add: 
   perm_remove: 
   perm: MyText
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText
 
 two:
+  group: MyString
+  private_key: MyString
   organization: two
+  added_by: two
   name: MyString
   description: MyText
   precedence: 1
   perm_add: 
   perm_remove: 
   perm: MyText
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText

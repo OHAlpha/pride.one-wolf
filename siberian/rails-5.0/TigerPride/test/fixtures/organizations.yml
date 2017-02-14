@@ -1,11 +1,27 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  organization: MyString
+  private_key: MyString
+  parent: one
   permission_set: one
+  added_by: one
   name: MyString
   description: MyText
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText
 
 two:
+  organization: MyString
+  private_key: MyString
+  parent: two
   permission_set: two
+  added_by: two
   name: MyString
   description: MyText
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText

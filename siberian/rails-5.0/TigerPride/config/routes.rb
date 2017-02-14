@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'application#root'
   get 'join', to: 'application#join'
   post 'join', to: 'application#join'
   get 'signin', to: 'application#signin'

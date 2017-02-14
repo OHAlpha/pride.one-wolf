@@ -6,6 +6,7 @@ one:
   middle: MyString
   family: MyString
   suffix: MyString
+  name: MyString
 
 two:
   title: MyString
@@ -13,3 +14,4 @@ two:
   middle: MyString
   family: MyString
   suffix: MyString
+  name: MyString

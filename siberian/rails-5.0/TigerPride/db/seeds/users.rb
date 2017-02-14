@@ -1,10 +1,11 @@
 require 'openssl'
 
-person = Person.create
+if User.where(name: 'admin').first.nil?
+    user = UserSeedRegistrar.new('admin','lnugentgibson@gmail.com','password').register
+    user.person.monickers.create kind: 'fullname', primary: 'true', name: ThreeName.create(given: 'Lloyd', middle: 'Nugent', family: 'Gibson')
+end
 
-t = ThreeName.create title: 'Mr.', given: 'Adam', middle: 'Amos', family: 'Adams', suffix: 'I'
-Monicker.create kind: 'fullname', primary: 'true', name: t, person: person
-Email.create address: 'adam.adams', provider: 'devel.io', kind: 'personal', primary: true, person: person
-
-user = UserSeedRegistrar.new('first_user','adam.adams@devel.io','password').register
-user.person = person
+if User.where(name: 'first_user').first.nil?
+    user = UserSeedRegistrar.new('first_user','adam.adams@devel.io','password').register
+    user.person.monickers.create kind: 'fullname', primary: 'true', name: ThreeName.create(title: 'Mr.', given: 'Adam', middle: 'Amos', family: 'Adams', suffix: 'Jr.')
+end

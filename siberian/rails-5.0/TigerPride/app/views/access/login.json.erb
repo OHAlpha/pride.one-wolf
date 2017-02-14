@@ -1,6 +1,5 @@
 {
     "success": <%= @success %>
-    <%= if @success then ", \"user_id\": #{@user.id}".html_safe end %>
     <% params.each do |key,val| %>
         ,"<%= key %>": "<%= val %>"
     <% end %>

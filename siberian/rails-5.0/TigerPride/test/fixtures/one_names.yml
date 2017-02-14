@@ -2,6 +2,8 @@
 
 one:
   name: MyString
+  uses: 1
 
 two:
   name: MyString
+  uses: 1

@@ -11,23 +11,46 @@ class UserSeedRegistrar
   
   def register()
     passhash
-    User.create do |u|
-      u.name = @name
-      u.email = @email
-      u.client_salt = @client_salt
-      u.server_salt = @server_salt
-      u.iterations = @iterations
-      u.passhash = @passhash
-      u.perm_override_add = @padd
-      u.perm_override_remove = @prem
-      u.perm_override = @povr
-      u.reg_date = Time.now.to_i
-      u.reg_ip = IPAddress.new('127.0.0.1').to_i
+    person = Person.create added_by: Account.admin
+    es = @email.split '@'
+    email = person.emails.create do |e|
+      e.address = es[0]
+      e.provider = es[1]
+      e.primary = true
+      e.added_by = Account.admin
     end
+    user = User.create do |u|
+      u.person = person
+      u.name = @name
+      #u.reg_date = Time.now.to_i
+      u.reg_ip = Iaddress.new('127.0.0.1').to_i
+      u.state = UserStates.seed_registered[:id]
+      u.status = UserStates.seed_registered[:text]
+    end
+    account = user.accounts.create do |a|
+      a.name = 'main'
+    end
+    account.credentials.create do |c|
+      c.perm_override_add = @padd
+      c.perm_override_remove = @prem
+      c.perm_override = @povr
+    end
+    account.logins.create do |l|
+      l.email = email
+      l.client_salt = @client_salt
+      l.server_salt = @server_salt
+      l.iterations = @iterations
+      l.passhash = @passhash
+      l.primary = true
+    end
+    user
   end
   
   def passhash
-    case version
+    if @version.nil?
+      @version = UserAuthenticationData.current_version
+    end
+    case @version
     when '1.0.0'
       cs = SecureRandom.hex(UserAuthenticationData.version_data(:client_salt_size,@version))
       ss = SecureRandom.hex(UserAuthenticationData.version_data(:server_salt_size,@version))

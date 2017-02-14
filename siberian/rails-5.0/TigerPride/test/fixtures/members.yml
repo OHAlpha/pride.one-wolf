@@ -1,9 +1,23 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
+  member: MyString
+  private_key: MyString
+  account: one
   organization: one
+  authorized_by: one
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText
 
 two:
-  user: two
+  member: MyString
+  private_key: MyString
+  account: two
   organization: two
+  authorized_by: two
+  state: 1
+  status: MyString
+  details: MyText
+  auxillary: MyText

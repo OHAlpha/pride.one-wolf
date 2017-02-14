@@ -1,16 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  user: MyString
+  private_key: MyString
   person: one
   name: MyString
-  email: MyString
-  client_salt: MyString
-  server_salt: MyString
-  iterations: 1
-  passhash: MyString
-  perm_override_add: 
-  perm_override_remove: 
-  perm_override: MyText
   reg_date: 1
   reg_ip: 1
   log_dat: 1
@@ -21,16 +15,10 @@ one:
   auxillary: MyText
 
 two:
+  user: MyString
+  private_key: MyString
   person: two
   name: MyString
-  email: MyString
-  client_salt: MyString
-  server_salt: MyString
-  iterations: 1
-  passhash: MyString
-  perm_override_add: 
-  perm_override_remove: 
-  perm_override: MyText
   reg_date: 1
   reg_ip: 1
   log_dat: 1

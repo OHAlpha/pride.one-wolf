@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  person: one
+  added_by: one
+  language: MyString
+  kind: MyString
+  primary: false
+
+two:
+  person: two
+  added_by: two
+  language: MyString
+  kind: MyString
+  primary: false

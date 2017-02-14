@@ -2,6 +2,7 @@
 
 one:
   person: one
+  added_by: one
   address: MyString
   provider: MyString
   kind: MyString
@@ -9,6 +10,7 @@ one:
 
 two:
   person: two
+  added_by: two
   address: MyString
   provider: MyString
   kind: MyString

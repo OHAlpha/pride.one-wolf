@@ -1,15 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  monicker: MyString
+  private_key: MyString
   person: one
   name: one
   name_type: Name
+  added_by: one
   kind: MyString
   primary: false
 
 two:
+  monicker: MyString
+  private_key: MyString
   person: two
   name: two
   name_type: Name
+  added_by: two
   kind: MyString
   primary: false

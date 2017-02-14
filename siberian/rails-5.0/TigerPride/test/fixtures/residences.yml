@@ -1,15 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  residence: MyString
+  private_key: MyString
   person: one
   address: one
   address_type: Address
+  added_by: one
   kind: MyString
   primary: false
 
 two:
+  residence: MyString
+  private_key: MyString
   person: two
   address: two
   address_type: Address
+  added_by: two
   kind: MyString
   primary: false

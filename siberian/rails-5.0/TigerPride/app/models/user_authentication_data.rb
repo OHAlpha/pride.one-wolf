@@ -12,6 +12,10 @@ class UserAuthenticationData
     hmac_key: 'oalpha'
   }
   
+  def self.current_version
+    @@version
+  end
+  
   def self.version_data(key,version=@@version)
     case version
     when '1.0.0'

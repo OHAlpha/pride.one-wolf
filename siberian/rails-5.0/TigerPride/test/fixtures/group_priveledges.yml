@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  owner: one
+  target: one
+  added_by: one
+
+two:
+  owner: two
+  target: two
+  added_by: two
