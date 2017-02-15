@@ -6,22 +6,30 @@
 - min_name_length = 4
 - max_password_length = 32
 - min_password_length = 8
-%form#signinForm{action: @redirect_url, method: 'GET', 'ng-app': 'signinApp', 'ng-controller': 'signinController', name: 'signinForm', 'ng-submit': "processForm()", novalidate: true}
+%form#signinForm{action: @redirect_url, method: 'GET', 'ng-app': 'signinApp', 'ng-controller': 'signinController', name: 'signinForm', 'ng-submit': "processForm()", novalidate: true, 'ng-class': '{extended: extended}'}
   - atname = request_forgery_protection_token.to_s
   %input{type: 'hidden', name: atname, id: 'authenticity_token', value: form_authenticity_token}
-  - row = 1
-  .row{row: row}
-    - row = row + 1
+  .row{row: 1}
+    #identifier-prompt.prompt.full
+      %p{'ng-show': 'mode == "pass"'} Welcome {{user.Name}}
+  .row{row: 2, 'ng-show': 'mode == "id" && !extended'}
     #identifier-field.field.full
-      %input{type: 'text', placeholder: 'Username or Email', 'ng-model': 'formData.identifier', name: 'identifier', id: 'identifier', 'ng-required': 'true', 'ng-trim': 'true'}
+      %input.expandable{type: 'text', placeholder: 'Username or Email', 'ng-model': 'user.identifier', name: 'identifier', id: 'identifier', 'ng-required': 'true', 'ng-trim': 'true'}
+      %button.expander
       %span{'ng-show': 'error.identifier', 'ng-model': 'error.identifier'}
-  .row{row: row}
-    - row = row + 1
+  .row{row: 2, 'ng-show': 'mode == "id" && extended'}
+    #name-field.field.full
+      %input{type: 'text', placeholder: 'Username', 'ng-model': 'user.name', name: 'name', id: 'name', 'ng-trim': 'true'}
+      %span{'ng-show': 'error.name', 'ng-model': 'error.name'}
+  .row{row: 3, 'ng-show': 'id-mode && extended'}
+    #email-field.field.full
+      %input{type: 'text', placeholder: 'Email', 'ng-model': 'user.email', name: 'email', id: 'email', 'ng-required': 'true', 'ng-trim': 'true'}
+      %span{'ng-show': 'error.email', 'ng-model': 'error.email'}
+  .row{row: 2, 'ng-show': 'mode == "pass"'}
     .field.full
-      %input{type: 'password', placeholder: 'Password', 'ng-model': 'auxillary.password', name: 'password', id: 'password', 'ng-required': 'true'}
-  .row{row: row}
-    - row = row + 1
+      %input{type: 'password', placeholder: 'Password', 'ng-model': 'formData.password', name: 'password', id: 'password', 'ng-required': 'true'}
+  .row{row: '{{mode == "id" && extended ? 4 : 3}}'}
     #submit-field.field.half.left
-      %button{type: 'submit', id: 'submit', 'ng-disabled': 'signupForm.$invalid'} Sign In
+      %button{type: 'submit', id: 'submit', 'ng-disabled': 'signinForm.$invalid', 'ng-class': '{next: mode == "id"}'} {{mode == 'id' ? 'Next' : 'Sign In'}}
     .field.half.right
       %a{href: join_path} Sign Up

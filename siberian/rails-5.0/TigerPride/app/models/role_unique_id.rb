@@ -8,7 +8,7 @@ class RoleUniqueId < UniqueId
     def key_size
         64
     end
-    def before_save(record)
+    def before_create(record)
         generate(record)
     end
 end

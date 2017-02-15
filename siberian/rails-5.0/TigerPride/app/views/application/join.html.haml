@@ -6,24 +6,27 @@
 - min_name_length = 4
 - max_password_length = 32
 - min_password_length = 8
-%form#signupForm{action: '/login', method: 'POST', 'ng-app': 'signupApp', 'ng-controller': 'signupController', name: 'signupForm', 'ng-submit': "processForm()", novalidate: true}
+%form#signupForm{'ng-app': 'signupApp', 'ng-controller': 'signupController', name: 'signupForm', 'ng-submit': "processForm()", novalidate: true}
   - atname = request_forgery_protection_token.to_s
   %input{type: 'hidden', name: atname, id: 'authenticity_token', value: form_authenticity_token}
-  %input{type: 'hidden', name: 'url', id: 'redirect_url', value: @redirect_url}
+  %input{type: 'hidden', name: 'user', id: 'user', value: @user_id}
+  %input{type: 'hidden', name: 'url', id: 'url', value: @redirect_url}
   - row = 1
   .row{row: row}
     - row = row + 1
     #name-field.field.full
-      %input{type: 'text', placeholder: 'Username', 'ng-model': 'formData.name', name: 'name', id: 'name', 'ng-blur': 'nameExists()', 'ng-maxlength': max_name_length, 'ng-minlength': min_name_length, 'ng-required': 'true', 'ng-trim': 'true'}
-      %span{'ng-show': 'error.name', 'ng-model': 'error.name'}
+      %input{type: 'text', placeholder: 'Username', 'ng-model': 'user.name', name: 'name', id: 'name', 'server-value': @user.name, 'ng-blur': 'nameExists()', 'ng-maxlength': max_name_length, 'ng-minlength': min_name_length, 'ng-required': 'true', 'ng-trim': 'true'}
+      .message{'ng-show': 'error.name', 'ng-model': 'error.name'} {{error.name}}
   .row{row: row}
     - row = row + 1
     #email-field.field.full
-      %input{type: 'text', placeholder: 'Email', 'ng-model': 'formData.email', name: 'email', id: 'email', 'ng-change': 'validEmail()', 'ng-blur': 'emailExists()', 'ng-required': 'true', 'ng-trim': 'true'}
+      %input{type: 'text', placeholder: 'Email', 'ng-model': 'user.email', name: 'email', id: 'email', 'server-value': @user.email, 'ng-change': 'validEmail()', 'ng-blur': 'emailExists()', 'ng-required': 'true', 'ng-trim': 'true'}
+      .message{'ng-show': 'error.email', 'ng-model': 'error.email'} {{error.email}}
   .row{row: row}
     - row = row + 1
     .field.full
-      %input{type: 'text', placeholder: 'Confirm Email', 'ng-model': 'auxillary.email', name: 'confirm_email', id: 'confirm-email', 'ng-blur': 'confirmEmail()', 'ng-change': 'validEmail()', 'ng-required': 'true', 'ng-trim': 'true'}
+      %input{type: 'text', placeholder: 'Confirm Email', 'ng-model': 'auxillary.email', name: 'confirm_email', id: 'confirm-email', 'ng-change': 'validEmail()', 'ng-blur': 'confirmEmail()', 'ng-required': 'true', 'ng-trim': 'true'}
+      .message{'ng-show': 'error.confirm_email', 'ng-model': 'error.confirm_email'} {{error.confirm_email}}
   .row{row: row}
     - row = row + 1
     .field.half.left
@@ -37,7 +40,7 @@
   .row{row: row}
     - row = row + 1
     .field.full
-      %input{type: 'password', placeholder: 'Confirm Password', 'ng-model': 'auxillary.confirm_password', name: 'confirm_password', id: 'confirm-password', 'ng-blur': 'confirmPassword()', 'ng-change': 'validPassword()', 'ng-maxlength': max_password_length, 'ng-minlength': min_password_length, 'ng-required': 'true'}
+      %input{type: 'password', placeholder: 'Confirm Password', 'ng-model': 'auxillary.confirm_password', name: 'confirm_password', id: 'confirm-password', 'ng-change': 'validPassword()', 'ng-blur': 'confirmPassword()', 'ng-required': 'true'}
   .row{row: row}
     - row = row + 1
     #submit-field.field.half.left

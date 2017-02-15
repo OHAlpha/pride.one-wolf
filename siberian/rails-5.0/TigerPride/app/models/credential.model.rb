@@ -1,5 +1,5 @@
 class Credential < ApplicationRecord
   belongs_to :account
   
-  before_save CredentialUniqueId.new
+  before_create CredentialUniqueId.new
 end

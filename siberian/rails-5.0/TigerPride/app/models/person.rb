@@ -13,7 +13,7 @@ class Person < ApplicationRecord
   
   has_one :user
   
-  before_save PersonUniqueId.new
+  before_create PersonUniqueId.new
   
   def primary_monicker
       monickers.where(primary: true).first

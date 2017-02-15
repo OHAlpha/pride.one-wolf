@@ -1,6 +1,6 @@
 {
-    "success": <%= @success %>
-    <%= if @success then ", \"salt\": \"#{@salt[:client_salt]}\"".html_safe end %>
-    <%= if @success then ", \"iterations\": #{@salt[:iterations]}".html_safe end %>
-    <%= if @success then ", \"key_size\": #{@salt[:key_size]}".html_safe end %>
+    "success": true,
+    "salt": "<%= @salt[:salt] %>",
+    "iterations": <%= @salt[:iterations] %>,
+    "key_size": <%= @salt[:size] %>
 }

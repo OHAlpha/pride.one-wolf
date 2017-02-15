@@ -11,7 +11,7 @@ class User < ApplicationRecord
   serialize :perm_override, Hash
   serialize :auxillary, Hash
   
-  before_save UserUniqueId.new
+  before_create UserUniqueId.new
   
   def main_account
     accounts.where(name: 'main').first

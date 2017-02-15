@@ -9,30 +9,45 @@ function toHex(s) {
 (function() {
     var app = angular.module('signupApp', []);
     app.controller('signupController', function($scope, $http) {
+        $scope.user = $('#url').val();
+        $scope.user = {
+            id: $('#user').val(),
+            name: $('#name').attr('server-value'),
+            email: $('#email').attr('server-value')
+        };
         $scope.formData = {
             authenticity_token: $('#authenticity_token').val()
         };
         $scope.auxillary = {};
         $scope.error = {};
+        $scope.log = function(text) {
+            <% if Rails.env.development? %>
+                if( $('#debug-console') )
+                    $('#debug-console').append('<p>'+text+'</p>')
+                else
+                    console.log(text);
+            <% end %>
+        }
         $scope.nameExists = function() {
             $('#name-field').addClass('loader-07');
             $http({
                     method: 'POST',
-                    url: '/access/name_exists.json',
+                    url: '/access/name_exists',
                     data: $.param({
-                        'name': $scope.formData.name,
-                        authenticity_token: $('#authenticity_token').val()
+                        user: $scope.user.id,
+                        name: $scope.user.name,
+                        authenticity_token: $scope.formData.authenticity_token
                     }),
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 })
-                .success(function(data) {
-                    console.log(data);
+                .success(function(response) {
+                    $scope.log(response);
 
-                    if (data.exists) {
+                    if (response == 'invalid') {
                         $scope.error.name = 'That username is not available';
-                        $scope.signupForm.name.$setValidity('nameExists', false)
+                        $scope.signupForm.name.$setValidity('nameExists', false);
                     }
                     else {
                         $scope.signupForm.name.$setValidity('nameExists', true)
@@ -45,19 +60,20 @@ function toHex(s) {
             $('#email-field').addClass('loader-07');
             $http({
                     method: 'POST',
-                    url: '/access/email_exists.json',
+                    url: '/access/email_exists',
                     data: $.param({
-                        'email': $scope.formData.email,
-                        authenticity_token: $('#authenticity_token').val()
+                        user: $scope.user.id,
+                        email: $scope.user.email,
+                        authenticity_token: $scope.formData.authenticity_token
                     }),
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 })
-                .success(function(data) {
-                    console.log(data);
+                .success(function(response) {
+                    $scope.log(response);
 
-                    if (data.exists) {
+                    if (response == 'invalid') {
                         $scope.error.email = 'That username is not available';
                         $scope.signupForm.email.$setValidity('emailExists', false)
                     }
@@ -69,12 +85,16 @@ function toHex(s) {
                 });
         }
         $scope.confirmEmail = function() {
-            var valid = $scope.formData.email === $scope.auxillary.email;
+            var valid = $scope.user.email === $scope.auxillary.email;
+            if( !valid )
+                $scope.error.confirm_email = 'email does not match';
             $scope.signupForm.email.$setValidity('confirmEmail', valid);
             $scope.signupForm.confirm_email.$setValidity('confirmEmail', valid);
         }
         $scope.confirmPassword = function() {
             var valid = $scope.auxillary.password === $scope.auxillary.confirm_password;
+            if( !valid )
+                $scope.error.confirm_password = 'password does not match';
             $scope.signupForm.password.$setValidity('confirmPassword', valid);
             $scope.signupForm.confirm_password.$setValidity('confirmPassword', valid);
         }
@@ -86,6 +106,36 @@ function toHex(s) {
             $scope.signupForm.password.$setValidity('confirmPassword', true);
             $scope.signupForm.confirm_password.$setValidity('confirmPassword', true);
         }
+        $scope.hashPassword = function(data) {
+            var md = forge.md.sha512.create();
+            var arr = forge.pkcs5.pbkdf2($scope.auxillary.password, data.salt, data.iterations, data.key_size, md);
+            return toHex(arr);
+        }
+        $scope.handleSalt = function(data) {
+            $scope.log(data);
+            if (data.success) {
+                var hex = $scope.hashPassword(data);
+                $http({
+                        method: 'POST',
+                        url: '/access/register.json',
+                        data: $.param({
+                            user: $scope.user.id,
+                            passhash: hex,
+                            authenticity_token: $scope.formData.authenticity_token
+                        }), // pass in data as strings
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        } // set the headers so angular passing info as form data (not request payload)
+                    })
+                    .success(function(data) {
+                        $scope.log(data);
+                        
+                        $scope.message = data;
+                        
+                        window.location.href = $scope.url;
+                    });
+            }
+        }
         $scope.processForm = function() {
             var password = $scope.auxillary.password;
             $scope.auxillary.password = '';
@@ -95,38 +145,10 @@ function toHex(s) {
                 method: 'POST',
                 url: '/access/generate_salt.json',
                 data: {
-                    name: $scope.formData.name,
-                    email: $scope.formData.email,
-                    authenticity_token: $('#authenticity_token').val()
+                    user: $scope.user.id,
+                    authenticity_token: $scope.formData.authenticity_token
                 }
-            }).success(function(data) {
-                console.log(data);
-                if (data.success) {
-                    var md = forge.md.sha512.create();
-                    var arr = forge.pkcs5.pbkdf2(password, data.salt, data.iterations, data.key_size, md);
-                    var hex = toHex(arr);
-                    $http({
-                            method: 'POST',
-                            url: '/access/register.json',
-                            data: $.param({
-                                name: $scope.formData.name,
-                                email: $scope.formData.email,
-                                salt: data.salt,
-                                iterations: data.iterations,
-                                passhash: hex,
-                                authenticity_token: $('#authenticity_token').val()
-                            }), // pass in data as strings
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
-                            } // set the headers so angular passing info as form data (not request payload)
-                        })
-                        .success(function(data) {
-                            console.log(data);
-
-                            $scope.message = data;
-                        });
-                }
-            }).then(function() {
+            }).success($scope.hashPassword).then(function() {
                 $('#submit-field').removeClass('loader-07');
             });
         };

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170213210953) do
+ActiveRecord::Schema.define(version: 20170214135848) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -31,14 +31,16 @@ ActiveRecord::Schema.define(version: 20170213210953) do
     t.string   "private_key"
     t.integer  "account_id"
     t.integer  "role_id"
+    t.integer  "authorized_by_id"
     t.integer  "state"
     t.string   "status"
     t.text     "details"
     t.text     "auxillary"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.index ["account_id"], name: "index_appointments_on_account_id"
     t.index ["appointment"], name: "index_appointments_on_appointment", unique: true
+    t.index ["authorized_by_id"], name: "index_appointments_on_authorized_by_id"
     t.index ["private_key"], name: "index_appointments_on_private_key"
     t.index ["role_id"], name: "index_appointments_on_role_id"
   end
@@ -48,14 +50,16 @@ ActiveRecord::Schema.define(version: 20170213210953) do
     t.string   "private_key"
     t.integer  "account_id"
     t.integer  "group_id"
+    t.integer  "authorized_by_id"
     t.integer  "state"
     t.string   "status"
     t.text     "details"
     t.text     "auxillary"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.index ["account_id"], name: "index_assignments_on_account_id"
     t.index ["assignment"], name: "index_assignments_on_assignment", unique: true
+    t.index ["authorized_by_id"], name: "index_assignments_on_authorized_by_id"
     t.index ["group_id"], name: "index_assignments_on_group_id"
     t.index ["private_key"], name: "index_assignments_on_private_key"
   end
@@ -126,8 +130,10 @@ ActiveRecord::Schema.define(version: 20170213210953) do
   create_table "group_priveledges", force: :cascade do |t|
     t.integer  "owner_id"
     t.integer  "target_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "added_by_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["added_by_id"], name: "index_group_priveledges_on_added_by_id"
     t.index ["owner_id"], name: "index_group_priveledges_on_owner_id"
     t.index ["target_id"], name: "index_group_priveledges_on_target_id"
   end
@@ -136,6 +142,7 @@ ActiveRecord::Schema.define(version: 20170213210953) do
     t.string   "group"
     t.string   "private_key"
     t.integer  "organization_id"
+    t.integer  "added_by_id"
     t.string   "name"
     t.text     "description"
     t.integer  "precedence"
@@ -148,6 +155,7 @@ ActiveRecord::Schema.define(version: 20170213210953) do
     t.text     "auxillary"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["added_by_id"], name: "index_groups_on_added_by_id"
     t.index ["group"], name: "index_groups_on_group", unique: true
     t.index ["organization_id"], name: "index_groups_on_organization_id"
     t.index ["private_key"], name: "index_groups_on_private_key"
@@ -190,13 +198,15 @@ ActiveRecord::Schema.define(version: 20170213210953) do
     t.string   "private_key"
     t.integer  "account_id"
     t.integer  "organization_id"
+    t.integer  "authorized_by_id"
     t.integer  "state"
     t.string   "status"
     t.text     "details"
     t.text     "auxillary"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.index ["account_id"], name: "index_members_on_account_id"
+    t.index ["authorized_by_id"], name: "index_members_on_authorized_by_id"
     t.index ["member"], name: "index_members_on_member", unique: true
     t.index ["organization_id"], name: "index_members_on_organization_id"
     t.index ["private_key"], name: "index_members_on_private_key"
@@ -256,6 +266,7 @@ ActiveRecord::Schema.define(version: 20170213210953) do
     t.string   "private_key"
     t.integer  "parent_id"
     t.integer  "permission_set_id"
+    t.integer  "added_by_id"
     t.string   "name"
     t.text     "description"
     t.integer  "state"
@@ -264,6 +275,7 @@ ActiveRecord::Schema.define(version: 20170213210953) do
     t.text     "auxillary"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.index ["added_by_id"], name: "index_organizations_on_added_by_id"
     t.index ["organization"], name: "index_organizations_on_organization", unique: true
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
     t.index ["permission_set_id"], name: "index_organizations_on_permission_set_id"
@@ -400,8 +412,10 @@ ActiveRecord::Schema.define(version: 20170213210953) do
   create_table "role_priveledges", force: :cascade do |t|
     t.integer  "owner_id"
     t.integer  "target_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "added_by_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["added_by_id"], name: "index_role_priveledges_on_added_by_id"
     t.index ["owner_id"], name: "index_role_priveledges_on_owner_id"
     t.index ["target_id"], name: "index_role_priveledges_on_target_id"
   end
@@ -410,6 +424,7 @@ ActiveRecord::Schema.define(version: 20170213210953) do
     t.string   "role"
     t.string   "private_key"
     t.integer  "organization_id"
+    t.integer  "added_by_id"
     t.string   "name"
     t.text     "description"
     t.integer  "precedence"
@@ -419,6 +434,7 @@ ActiveRecord::Schema.define(version: 20170213210953) do
     t.text     "auxillary"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["added_by_id"], name: "index_roles_on_added_by_id"
     t.index ["organization_id"], name: "index_roles_on_organization_id"
     t.index ["private_key"], name: "index_roles_on_private_key"
     t.index ["role"], name: "index_roles_on_role", unique: true

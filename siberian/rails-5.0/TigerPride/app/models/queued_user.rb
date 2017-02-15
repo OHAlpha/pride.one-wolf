@@ -2,5 +2,5 @@ class QueuedUser < ApplicationRecord
     validates_with UserNameValidator
     validates_with UserEmailValidator
     
-    before_save QueuedUserUniqueId.new
+    before_create QueuedUserUniqueId.new
 end

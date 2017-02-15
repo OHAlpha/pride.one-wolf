@@ -35,6 +35,7 @@ class AccessController < ApplicationController
     if not @user.name.nil? and not @user.email.nil? and @user.valid?
       salt = UserClientSaltGenerator.new
       @salt = salt.to_hash(@user)
+      puts @salt.to_s
     end
   end
 
@@ -45,23 +46,30 @@ class AccessController < ApplicationController
     #@euser = User.where( email: params[:email]).first
     #@success = @nuser.nil? and @euser.nil?
     #if @success
-    if not @user.name.nil? and not @user.email.nil? and not @user.salt.nil? and not @user.iterations.nil? and @user.valid?
-      UserRegistrar.new(params[:passhash], request.remote_ip, user: @user).register
+    @user.transaction do
+      if not @user.name.nil? and not @user.email.nil? and not @user.salt.nil? and not @user.iterations.nil? and @user.valid?
+        @success = true
+        UserRegistrar.new(params[:passhash], request.remote_ip, user: @user).register
+      else
+        @success = false
+      end
     end
   end
 
-  def primary_name
-  end
-
-  def client_salt
-    @nuser = Login.where( name: params[:identifier]).first
-    @euser = Login.where( email: params[:identifier]).first
-    @user = 
-      if @nuser.nil?
-        @euser
+  def user_data
+    @nl = Login.where( name: params[:identifier]).first
+    @el = Login.where( email: params[:identifier]).first
+    @login = 
+      if @nl.nil?
+        @el
       else
-        @nuser
+        @nl
       end
+    if not @login.nil?
+      @account = @login.account
+      @user = @account.user
+      @person = @user.person
+    end
   end
 
   def login

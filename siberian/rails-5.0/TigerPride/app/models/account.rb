@@ -3,7 +3,7 @@ class Account < ApplicationRecord
   has_many :credentials
   has_many :logins
   
-  before_save AccountUniqueId.new
+  before_create AccountUniqueId.new
   
   def primary_login
       logins.where(primary: true).first

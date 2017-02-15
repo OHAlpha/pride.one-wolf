@@ -3,7 +3,7 @@ class Login < ApplicationRecord
   belongs_to :email
   has_many :auto_logins
   
-  before_save LoginUniqueId.new
+  before_create LoginUniqueId.new
   
   def user
       account.user

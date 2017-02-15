@@ -38,7 +38,11 @@ class ApplicationController < ActionController::Base
   
   def redirect_url
     if params[:url].nil?
-      dashboard_path
+      if params[:action] == 'register'
+        signin_path
+      else
+        dashboard_path
+      end
     else
       params[:url]
     end
