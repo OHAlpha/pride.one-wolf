@@ -8,6 +8,22 @@ function toHex(s) {
 
 (function() {
     var app = angular.module('signupApp', []);
+    /*
+    app.directive('nameValid', function() {
+        return {
+            require: 'ngModel',
+            link: function(scope, element, attr, mCtrl) {
+                function nameValid(value) {
+                    if( value == '' ) {
+                    }
+                    else if( value ) {
+                    }
+                }
+                mCtrl.$parsers.push(nameValid);
+            }
+        };
+    );
+    */
     app.controller('signupController', function($scope, $http) {
         $scope.user = $('#url').val();
         $scope.user = {
@@ -22,9 +38,9 @@ function toHex(s) {
         $scope.error = {};
         $scope.log = function(text) {
             <% if Rails.env.development? %>
-                if( $('#debug-console') )
-                    $('#debug-console').append('<p>'+text+'</p>')
-                else
+                //if( $('#debug-console').length )
+                    //$('#debug-console').append('<p>'+text+'</p>')
+                //else
                     console.log(text);
             <% end %>
         }
@@ -108,11 +124,12 @@ function toHex(s) {
         }
         $scope.hashPassword = function(data) {
             var md = forge.md.sha512.create();
-            var arr = forge.pkcs5.pbkdf2($scope.auxillary.password, data.salt, data.iterations, data.key_size, md);
+            var arr = forge.pkcs5.pbkdf2($scope.password, data.salt, data.iterations, data.key_size, md);
             return toHex(arr);
         }
         $scope.handleSalt = function(data) {
             $scope.log(data);
+            console.log(data);
             if (data.success) {
                 var hex = $scope.hashPassword(data);
                 $http({
@@ -120,6 +137,7 @@ function toHex(s) {
                         url: '/access/register.json',
                         data: $.param({
                             user: $scope.user.id,
+                            <% if Rails.env.development? %> password: $scope.password, <% end %>
                             passhash: hex,
                             authenticity_token: $scope.formData.authenticity_token
                         }), // pass in data as strings
@@ -137,7 +155,7 @@ function toHex(s) {
             }
         }
         $scope.processForm = function() {
-            var password = $scope.auxillary.password;
+            $scope.password = $scope.auxillary.password;
             $scope.auxillary.password = '';
             $scope.auxillary.confirm_password = '';
             $('#submit-field').addClass('loader-07');
@@ -148,7 +166,7 @@ function toHex(s) {
                     user: $scope.user.id,
                     authenticity_token: $scope.formData.authenticity_token
                 }
-            }).success($scope.hashPassword).then(function() {
+            }).success($scope.handleSalt).then(function() {
                 $('#submit-field').removeClass('loader-07');
             });
         };

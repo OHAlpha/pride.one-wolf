@@ -1,26 +1,26 @@
-class UserStates
+class PersonStates
     def self.lngibson
         {
             state: 0,
             status: 'lngibson'
         }
     end
-    def self.seed_registered
+    def self.seed_added
         {
             state: 1,
-            status: 'seed registered'
+            status: 'seed added'
         }
     end
-    def self.ok
+    def self.registered_user
         {
             state: 2,
-            status: 'standard user'
+            status: 'registered user'
         }
     end
-    def self.must_validate
+    def self.user_added
         {
             state: 3,
-            status: 'must validate'
+            status: 'user added'
         }
     end
 end

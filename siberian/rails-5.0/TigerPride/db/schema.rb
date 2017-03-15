@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214135848) do
+ActiveRecord::Schema.define(version: 20170216202244) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -92,6 +92,19 @@ ActiveRecord::Schema.define(version: 20170214135848) do
     t.index ["private_key"], name: "index_credentials_on_private_key"
   end
 
+  create_table "development_registers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "password"
+    t.string   "client_salt"
+    t.integer  "iterations"
+    t.string   "client_hash"
+    t.string   "server_salt"
+    t.string   "server_hash"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "emails", force: :cascade do |t|
     t.integer  "person_id"
     t.integer  "added_by_id"
@@ -101,8 +114,10 @@ ActiveRecord::Schema.define(version: 20170214135848) do
     t.boolean  "primary"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "email"
     t.index ["added_by_id"], name: "index_emails_on_added_by_id"
     t.index ["address"], name: "index_emails_on_address"
+    t.index ["email"], name: "index_emails_on_email"
     t.index ["person_id"], name: "index_emails_on_person_id"
     t.index ["provider"], name: "index_emails_on_provider"
   end

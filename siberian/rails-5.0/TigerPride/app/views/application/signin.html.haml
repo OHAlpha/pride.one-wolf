@@ -6,7 +6,7 @@
 - min_name_length = 4
 - max_password_length = 32
 - min_password_length = 8
-%form#signinForm{action: @redirect_url, method: 'GET', 'ng-app': 'signinApp', 'ng-controller': 'signinController', name: 'signinForm', 'ng-submit': "processForm()", novalidate: true, 'ng-class': '{extended: extended}'}
+%form#signinForm{'ng-app': 'signinApp', 'ng-controller': 'signinController', name: 'signinForm', 'ng-submit': "processForm()", novalidate: true, 'ng-class': '{extended: extended}'}
   - atname = request_forgery_protection_token.to_s
   %input{type: 'hidden', name: atname, id: 'authenticity_token', value: form_authenticity_token}
   .row{row: 1}
@@ -30,6 +30,6 @@
       %input{type: 'password', placeholder: 'Password', 'ng-model': 'formData.password', name: 'password', id: 'password', 'ng-required': 'true'}
   .row{row: '{{mode == "id" && extended ? 4 : 3}}'}
     #submit-field.field.half.left
-      %button{type: 'submit', id: 'submit', 'ng-disabled': 'signinForm.$invalid', 'ng-class': '{next: mode == "id"}'} {{mode == 'id' ? 'Next' : 'Sign In'}}
+      %button{type: 'submit', id: 'submit', 'ng-disabled': 'mode == "id" ? (extended ? user.name == "" || user.email != "" : user.identifier == "") : formData.password == ""', 'ng-class': '{next: mode == "id"}'} {{mode == 'id' ? 'Next' : 'Sign In'}}
     .field.half.right
       %a{href: join_path} Sign Up

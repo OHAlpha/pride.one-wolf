@@ -1,7 +1,7 @@
 {
     "success": <%= !@user.nil? %>
-    <%= if not @user.nil? then ", \"user\": #{@login.login}".html_safe end %>
-    <%= if not @user.nil? then ", \"name\": #{if @person.primary_monicker.nil? then @user.name else @person.primary_monicker.name.name end}".html_safe end %>
+    <%= if not @user.nil? then ", \"user\": \"#{@login.login}\"".html_safe end %>
+    <%= if not @user.nil? then ", \"name\": \"#{if @person.primary_monicker.nil? then @user.name else @person.primary_monicker.name.name end}\"".html_safe end %>
     <%= if not @user.nil? then ", \"salt\": \"#{@login.client_salt}\"".html_safe end %>
     <%= if not @user.nil? then ", \"iterations\": #{@login.iterations}".html_safe end %>
     <%= if not @user.nil? then ", \"key_size\": #{UserAuthenticationData.version_data(:pkcs5_key_length,'1.0.0')}".html_safe end %>

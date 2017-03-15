@@ -1,0 +1,92 @@
+function toHex(s) {
+    var hex = "";
+    for (var i = 0; i < s.length; i++) {
+        hex += s.charCodeAt(i).toString(16);
+    }
+    return hex;
+}
+
+(function() {
+    var app = angular.module('signinApp', []);
+    app.controller('signinController', function($scope, $http) {
+        $scope.user = {
+            identifier: '',
+            name: '',
+            email: ''
+        };
+        $scope.formData = {
+            password: '',
+            authenticity_token: $('#authenticity_token').val()
+        };
+        $scope.mode = 'id';
+        $scope.extended = false;
+        $scope.auxillary = {};
+        $scope.error = {};
+        $scope.log = function(text) {
+            <% if Rails.env.development? %>
+                if( $('#debug-console') )
+                    $('#debug-console').append('<p>'+text+'</p>')
+                else
+                    console.log(text);
+            <% end %>
+        }
+        $scope.handleSalt = function(data) {
+            $scope.signinForm.identifier.$setValidity('exists', true);
+            $scope.signinForm.name.$setValidity('exists', true);
+            $scope.signinForm.email.$setValidity('exists', true);
+            if(data.success) {
+                $scope.mode = 'pass';
+                $scope.user.user = data.user;
+                $scope.user.name = data.name;
+                $scope.user.salt = data.salt;
+                $scope.user.iterations = data.iterations;
+                $scope.user.key_size = data.key_size;
+            }
+            else {
+                if( $scope.extended )
+                    if( $scope.name == '' )
+                        $scope.signinForm.email.$setValidity('exists', false);
+                    else
+                        $scope.signinForm.name.$setValidity('exists', false);
+                else
+                    $scope.signinForm.identifier.$setValidity('exists', false);
+            }
+        }
+        $scope.hashPassword = function() {
+            var md = forge.md.sha512.create();
+            var arr = forge.pkcs5.pbkdf2($scope.formData.password, $scope.user.salt, $scope.user.iterations, $scope.user.key_size, md);
+            return toHex(arr);
+        }
+        $scope.login = function(data) {
+            $scope.log(data);
+            
+            $scope.message = data;
+        }
+        $scope.processForm = function() {
+            var password = $scope.auxillary.password;
+            $scope.auxillary.password = '';
+            $scope.auxillary.confirm_password = '';
+            $('#submit-field').addClass('loader-07');
+            $http($scope.mode == 'id' ? {
+                method: 'POST',
+                url: '/access/user_data.json',
+                data: {
+                    identifier: $scope.user.identifier,
+                    name: $scope.user.name,
+                    email: $scope.user.email,
+                    authenticity_token: $scope.formData.authenticity_token
+                }
+            } : {
+                method: 'POST',
+                url: '/access/login.json',
+                data: {
+                    user: $scope.user.user,
+                    passhash: $scope.hashPassword(),
+                    authenticity_token: $('#authenticity_token').val()
+                }
+            }).success($scope.mode == 'id' ? $scope.handleSalt : $scope.login).then(function() {
+                $('#submit-field').removeClass('loader-07');
+            });
+        };
+    });
+})()

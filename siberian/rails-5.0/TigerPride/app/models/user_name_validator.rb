@@ -1,5 +1,8 @@
 class UserNameValidator < ActiveModel::Validator
     def validate(record)
-        record.name.nil? or (User.where(name: record.name).first.nil? and Account.where(name: record.name).first.nil?)
+        user = !User.exists?(name: record.name)
+        account = !Account.exists?(name: record.name)
+        puts "user: #{user}, account: #{account}"
+        record.name.nil? or (user and account)
     end
 end

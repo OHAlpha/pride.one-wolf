@@ -14,6 +14,6 @@ class User < ApplicationRecord
   before_create UserUniqueId.new
   
   def main_account
-    accounts.where(name: 'main').first
+    accounts.find_by name: 'main'
   end
 end

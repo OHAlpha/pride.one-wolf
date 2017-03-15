@@ -8,6 +8,6 @@
 
 # Dir[File.join(Rails.root, 'db', 'seeds', '*.rb')].sort.each { |seed| load seed }
 
-['organizations', 'users'].each do |file|
+['admin', 'organizations', 'users'].each do |file|
     load File.join(Rails.root, 'db', 'seeds', "#{file}.rb")
 end

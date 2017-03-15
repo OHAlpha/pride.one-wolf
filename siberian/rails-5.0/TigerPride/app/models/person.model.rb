@@ -1,5 +1,5 @@
 class Person < ApplicationRecord
-  belongs_to :added_by, class_name: 'Account', optional: true
+  belongs_to :added_by, class_name: 'Account'
   has_many :monickers
   has_many :emails
   has_many :residences
@@ -16,23 +16,35 @@ class Person < ApplicationRecord
   before_create PersonUniqueId.new
   
   def primary_monicker
-      monickers.where(primary: true).first
+      monickers.find_by primary: true
+  end
+  
+  def primary_name
+    primary_monicker.name.name
   end
   
   def primary_email
-      emails.where(primary: true).first
+      emails.find_by primary: true
+  end
+  
+  def onewolf_email
+      emails.find_by kind: 'onewolf'
   end
   
   def primary_residence
-      residences.where(primary: true).first
+      residences.find_by primary: true
+  end
+  
+  def primary_address
+    primary_residence.address.address
   end
   
   def primary_phone
-      phones.where(primary: true).first
+      phones.find_by primary: true
   end
   
   def primary_language
-      languages.where(primary: true).first
+      languages.find_by primary: true
   end
   
   def relations

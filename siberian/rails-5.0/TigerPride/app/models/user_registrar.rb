@@ -24,11 +24,18 @@ class UserRegistrar
     @prem = @options[:prem]
     @povr = @options[:povr]
     @version = @options[:version]
+    if Rails.env.development?
+      @password = @options[:password]
+    end
   end
   
   def register
     passhash
-    person = Person.create
+    person = Person.create do |s|
+      s.added_by = Account.admin
+      s.state = PersonStates.registered_user[:state]
+      s.status = PersonStates.registered_user[:status]
+    end
     es = @email.split '@'
     email = person.emails.create do |e|
       e.address = es[0]
@@ -41,15 +48,16 @@ class UserRegistrar
       u.name = @name
       #u.reg_date = Time.now.to_i
       u.reg_ip = @ip
-      u.state = UserStates.must_validate[:id]
-      u.status = UserStates.must_validate[:text]
+      u.state = UserStates.must_validate[:state]
+      u.status = UserStates.must_validate[:status]
     end
     account = user.accounts.create do |a|
       a.name = 'main'
+      a.display = @name
     end
     person.added_by = account
     person.save
-    account.credentials.create do |c|
+    account.create_credential do |c|
       c.perm_override_add = @padd
       c.perm_override_remove = @prem
       c.perm_override = @povr
@@ -62,6 +70,14 @@ class UserRegistrar
       l.passhash = @passhash
       l.version = @version
       l.primary = true
+    end
+    if Rails.env.development?
+      r = Development::Register.find_by name: @name, email: @email
+      r.password = @password
+      r.client_hash = @client_hash
+      r.server_salt = @server_salt
+      r.server_hash = @passhash
+      r.save
     end
     AccountMailer.welcome(user).deliver_later
     AccountMailer.validate(email).deliver_later

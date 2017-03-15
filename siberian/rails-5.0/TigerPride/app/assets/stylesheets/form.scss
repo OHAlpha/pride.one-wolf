@@ -62,7 +62,7 @@ form {
     .prompt {
       border-radius: 5px;
       background: rgba($theme-col-beta-4, .9);
-      box-shadow: inset 0 -5px 45px rgba($theme-col-zeta-4, 0.2), -1px -1px 2px rgba(white, 0.2), 1px 1px 2px rgba(black, 0.4);
+      box-shadow: inset 5px 5px 5px rgba(white, 0.2), inset -5px -5px 5px rgba(black, 0.4);
       p {
         position: absolute;
         width: 100%;
@@ -102,56 +102,49 @@ form {
         //cursor: pointer;
         border: none;
         background: rgba($theme-col-zeta-4, .9);
-        box-shadow: inset 0 -5px 45px rgba($theme-col-epsilon-1, 0.2), 0 1px 1px rgba(white, 0.2);
+        box-shadow: inset 2px 2px 2px rgba(white, 0.2), inset -2px -2px 2px rgba(black, 0.4);
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
         line-height: $row-height;
         text-align: center;
         text-decoration: none;
         &:hover {
           background: rgba($theme-col-alpha-2, .9);
-          box-shadow: inset 0 -5px 45px rgba(black, 0.6), 0 1px 1px rgba(white, 0.2);
+          box-shadow: inset 2px 2px 2px rgba(black, 0.2), inset -2px -2px 2px rgba(white, 0.4);
         }
         &:active {
-          box-shadow: inset 0 -5px 45px rgba(black, 0.6), 0 1px 1px rgba(white, 0.2);
-        }
-        &:disabled {
-          background: rgba($theme-col-alpha-2, .9);
-          pointer-events: none;
+          box-shadow: inset 2px 2px 2px rgba(black, 0.2), inset -2px -2px 2px rgba(white, 0.4);
         }
       }
       button {
         cursor: pointer;
         border: none;
         background: rgba($theme-col-alpha-2, .9);
-        box-shadow: inset 0 -5px 45px rgba($theme-col-epsilon-1, 0.2), 0 1px 1px rgba(white, 0.2);
+        box-shadow: inset 2px 2px 2px rgba(white, 0.2), inset -2px -2px 2px rgba(black, 0.4);
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
         &:hover {
           background: rgba($theme-col-zeta-1, .9);
-          box-shadow: inset 0 -5px 45px rgba(black, 0.6), 0 1px 1px rgba(white, 0.2);
+          box-shadow: inset 2px 2px 2px rgba(black, 0.2), inset -2px -2px 2px rgba(white, 0.4);
         }
         &:active {
-          box-shadow: inset 0 -5px 45px rgba(black, 0.6), 0 1px 1px rgba(white, 0.2);
+          box-shadow: inset 2px 2px 2px rgba(black, 0.2), inset -2px -2px 2px rgba(white, 0.4);
+        }
+        &:disabled {
+          box-shadow: inset 0 -5px 45px rgba($theme-col-alpha-2, 0.2);
         }
       }
       button[type=submit] {
         background: rgba($theme-col-alpha-4, .9);
-        box-shadow: inset 0 -5px 45px rgba($theme-col-epsilon-1, 0.2), 0 1px 1px rgba(white, 0.2);
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-        &:hover {
-          background: rgba($theme-col-zeta-2, .9);
-          box-shadow: inset 0 -5px 45px rgba(black, 0.6), 0 1px 1px rgba(white, 0.2);
-        }
         &:disabled {
           background: rgba($theme-col-alpha-2, .9);
           pointer-events: none;
         }
         &.next {
           background: rgba($theme-col-beta-4, .9);
-          box-shadow: inset 0 -5px 45px rgba($theme-col-zeta-1, 0.2), 0 1px 1px rgba(white, 0.2);
           text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
           &:hover {
             background: rgba($theme-col-eta-2, .9);
-            box-shadow: inset 0 -5px 45px rgba(black, 0.6), 0 1px 1px rgba(white, 0.2);
+            box-shadow: inset 2px 2px 2px rgba(black, 0.2), inset -2px -2px 2px rgba(white, 0.4);
           }
           &:disabled {
             background: rgba($theme-col-beta-2, .9);
@@ -174,7 +167,7 @@ form {
           border: 1px solid transparent;
           box-shadow: inset 0 -5px 45px rgba($theme-col-alpha-1, 0.4), 0 1px 1px rgba(white, 0.2);
         }
-        &.ng-invalid.ng-touched {
+        &.ng-invalid.ng-touched[value]:not([value=""]) {
           border: 1px solid transparent;
           box-shadow: inset 0 -5px 45px rgba(red, 0.6), 0 1px 1px rgba(white, 0.2);
         }

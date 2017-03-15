@@ -6,15 +6,15 @@ class Iaddress
       rescue
         begin
           ipi = Integer(ip)
-          @ip = []
-          (0..3).each do |i|
-            @ip[i] = ipi % 256
+          (0..3).collect do
+            t = ipi % 256
             ipi = ipi / 256
-          end
+            t
+          end.reverse
         rescue
           @ip = []
-          (0..3).each do |i|
-            @ip[i] = ip[i].to_i
+          (0..3).map do |i|
+            ip[i].to_i
           end
         end
       end
